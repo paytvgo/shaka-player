@@ -118,6 +118,8 @@ shakaDemo.setupAssets_ = function() {
       'input', shakaDemo.onAssetInput_);
   document.getElementById('certificateInput').addEventListener(
       'input', shakaDemo.onAssetInput_);
+  document.getElementById('xAuthenticationInput').addEventListener(
+      'input', shakaDemo.onAssetInput_);
 
   return asyncOfflineSetup;
 };
@@ -269,6 +271,16 @@ shakaDemo.preparePlayer_ = function(asset) {
   // See comments in onNativeChange_ for details.
   config.streaming.alwaysStreamText =
       document.getElementById('showNative').checked;
+
+  // Configure xAuthentication
+  let xAuthentication = document.getElementById('xAuthenticationInput').value;
+  if (xAuthentication) {
+    player.getNetworkingEngine().registerRequestFilter(function(type, request) {
+      if (type == shaka.net.NetworkingEngine.RequestType.LICENSE) {
+        request.headers['X-Authentication'] = xAuthentication;
+      }
+    });
+  }
 
   player.configure(config);
 
