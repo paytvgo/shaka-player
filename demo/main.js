@@ -288,6 +288,9 @@ shakaDemo.preBrowserCheckParams_ = function(params) {
   if ('certificate' in params) {
     document.getElementById('certificateInput').value = params['certificate'];
   }
+  if ('xauthentication' in params) {
+    document.getElementById('xAuthenticationInput').value = params['xauthentication'];
+  }
   if ('logtoscreen' in params) {
     document.getElementById('logToScreen').checked = true;
     // Call onLogChange_ manually, because setting checked
@@ -398,6 +401,7 @@ shakaDemo.postBrowserCheckParams_ = function(params) {
       // Clear the custom fields.
       document.getElementById('manifestInput').value = '';
       document.getElementById('licenseServerInput').value = '';
+      document.getElementById('xauthentication').value = '';
     } else {
       // It was a custom asset, so put it into the custom field.
       assetList.selectedIndex = assetList.options.length - 1;
@@ -542,6 +546,13 @@ shakaDemo.hashShouldChange_ = function() {
       if (certificateInputValue) {
         params.push('certificate=' + certificateInputValue);
       }
+
+      let xAuthenticationInputValue =
+          document.getElementById('xAuthenticationInput').value;
+      if (xAuthenticationInputValue) {
+        params.push('xauthentication=' + xAuthenticationInputValue);
+      }
+
     } else {
       // It's a default asset.
       params.push('asset=' +
